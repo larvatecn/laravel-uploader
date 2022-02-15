@@ -4,6 +4,7 @@ declare(strict_types=1);
 /**
  * This is NOT a freeware, use is subject to license terms.
  */
+
 namespace Larva\Uploader;
 
 use Illuminate\Contracts\Filesystem\Cloud as CloudFilesystemContract;
@@ -82,10 +83,10 @@ class UploaderAdapter
     /**
      * 设置上传文件跟目录
      *
-     * @param string $dir
+     * @param string|callable $dir
      * @return $this
      */
-    public function dir(string $dir)
+    public function dir($dir)
     {
         if ($dir) {
             $this->directory = $dir;
@@ -179,10 +180,7 @@ class UploaderAdapter
      */
     public function getDirectory(): string
     {
-        if ($this->directory instanceof \Closure) {
-            return call_user_func($this->directory);
-        }
-        return ($this->directory ?: $this->defaultDirectory()) . date('/Y/m');
+        return ($this->directory ?: $this->defaultDirectory());
     }
 
     /**
@@ -221,23 +219,20 @@ class UploaderAdapter
      * 销毁原始文件
      *
      * @param string|null $path
-     * @return void.
+     * @return true
      */
-    public function destroy(string $path = null)
+    public function destroy(string $path = null): bool
     {
         if (!$path) {
-            return;
+            return true;
         }
         if (URL::isValidUrl($path)) {
             $path = parse_url($path, PHP_URL_PATH);
         }
         if (!empty($path) && $this->storage->exists($path)) {
-            try {
-                $this->storage->delete($path);
-            } catch (UnableToDeleteFile $e) {
-                Log::error($e->getMessage(), $e->getTrace());
-            }
+            return $this->storage->delete($path);
         }
+        return true;
     }
 
     /**
