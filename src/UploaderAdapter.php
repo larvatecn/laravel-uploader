@@ -9,9 +9,7 @@ namespace Larva\Uploader;
 use Illuminate\Contracts\Filesystem\Cloud as CloudFilesystemContract;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
-use League\Flysystem\Config;
 use League\Flysystem\UnableToDeleteFile;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -44,9 +42,9 @@ class UploaderAdapter
     /**
      * Storage instance.
      *
-     * @var Filesystem|\League\Flysystem\Filesystem
+     * @var Filesystem
      */
-    protected $storage;
+    protected Filesystem $storage;
 
     /**
      * Use (unique or datetime or sequence) name for store upload file.
@@ -64,38 +62,11 @@ class UploaderAdapter
 
     /**
      * FileService constructor.
-     * @param string|null $disk
+     * @param Filesystem $storage
      */
-    public function __construct(string $disk = null)
+    public function __construct(Filesystem $storage)
     {
-        $disk = $disk ?? config('filesystems.default');
-        $this->disk($disk);
-    }
-
-    /**
-     * Set disk for storage.
-     *
-     * @param string $disk Disks defined in `config/filesystems.php`.
-     * @return $this|bool
-     */
-    public function disk(string $disk)
-    {
-        try {
-            $this->storage = Storage::disk($disk);
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage(), $exception->getTrace());
-            return false;
-        }
-        return $this;
-    }
-
-    /**
-     * 获取存储设置
-     * @return Config
-     */
-    public function getConfig(): Config
-    {
-        return $this->storage->getConfig();
+        $this->storage = $storage;
     }
 
     /**

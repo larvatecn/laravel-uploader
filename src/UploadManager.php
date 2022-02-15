@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Larva\Uploader;
 
+use Illuminate\Support\Facades\Storage;
+
 class UploadManager
 {
     /**
@@ -35,6 +37,6 @@ class UploadManager
      */
     protected function disk(string $disk = null): UploaderAdapter
     {
-        return new UploaderAdapter($disk);
+        return new UploaderAdapter(Storage::disk($disk));
     }
 }

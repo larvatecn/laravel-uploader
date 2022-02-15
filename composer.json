@@ -1,18 +1,13 @@
 {
   "name": "larva/laravel-uploader",
-  "description": "This is a transaction.",
-  "keywords": [ "laravel", "transaction", "larva" ],
+  "description": "This is a uploader.",
+  "keywords": [ "laravel", "uploader", "larva" ],
   "type": "library",
   "license": "MIT",
   "require": {
     "php": "^8.0",
     "ext-json": "*",
-    "illuminate/bus": "^9.0",
-    "illuminate/events": "^9.0",
-    "illuminate/http": "^9.0",
-    "illuminate/queue": "^9.0",
-    "illuminate/filesystem": "^9.0",
-    "illuminate/support": "^9.0"
+    "illuminate/filesystem": "^9.0"
   },
   "require-dev": {
     "laravel/framework": "^9.0",
