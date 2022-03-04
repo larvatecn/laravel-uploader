@@ -4,14 +4,12 @@ declare(strict_types=1);
 /**
  * This is NOT a freeware, use is subject to license terms.
  */
-
 namespace Larva\Uploader;
 
 use Illuminate\Contracts\Filesystem\Cloud as CloudFilesystemContract;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
-use League\Flysystem\UnableToDeleteFile;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -62,7 +60,7 @@ class UploaderAdapter
     protected ?string $visibility = null;
 
     /**
-     * FileService constructor.
+     * Constructor.
      * @param Filesystem $storage
      */
     public function __construct(Filesystem $storage)
@@ -100,7 +98,7 @@ class UploaderAdapter
      * @param string|callable $name
      * @return $this
      */
-    public function name($name): static
+    public function name($name)
     {
         if ($name) {
             $this->name = $name;
@@ -113,7 +111,7 @@ class UploaderAdapter
      *
      * @return $this
      */
-    public function uniqueName(): static
+    public function uniqueName()
     {
         $this->generateName = static::NAME_UNIQUE;
         return $this;
@@ -124,7 +122,7 @@ class UploaderAdapter
      *
      * @return $this
      */
-    public function datetimeName(): static
+    public function datetimeName()
     {
         $this->generateName = static::NAME_DATETIME;
         return $this;
@@ -189,7 +187,7 @@ class UploaderAdapter
      * @param string $path
      * @return string
      */
-    public function url(string $path): string
+    public function url(string $path)
     {
         if (URL::isValidUrl($path)) {
             return $path;

@@ -4,9 +4,9 @@ declare(strict_types=1);
 /**
  * This is NOT a freeware, use is subject to license terms.
  */
-
 namespace Larva\Uploader;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Storage;
 
 class UploadManager
@@ -14,17 +14,17 @@ class UploadManager
     /**
      * The application instance.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var Application
      */
-    protected $app;
+    protected Application $app;
 
     /**
      * Create a new filesystem manager instance.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
+     * @param Application $app
      * @return void
      */
-    public function __construct($app)
+    public function __construct(Application $app)
     {
         $this->app = $app;
     }
@@ -35,7 +35,7 @@ class UploadManager
      * @param string|null $disk
      * @return UploaderAdapter
      */
-    protected function disk(string $disk = null): UploaderAdapter
+    public function disk(string $disk = null): UploaderAdapter
     {
         return new UploaderAdapter(Storage::disk($disk));
     }

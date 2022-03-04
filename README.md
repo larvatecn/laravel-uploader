@@ -13,5 +13,5 @@
 ## 安装
 
 ```bash
-composer require "larva/laravel-uploader:^1.0"
+composer require larva/laravel-uploader
 ```
